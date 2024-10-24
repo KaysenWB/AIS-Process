@@ -4,8 +4,7 @@ import numpy as np
 import time
 from scipy.interpolate import interp1d
 from geopy.distance import geodesic
-import warnings
-warnings.filterwarnings("ignore")
+
 
 
 def timestamp_trans(dt):
@@ -112,6 +111,21 @@ def Show_Tra_Completed(df,start_comp,end_comp):
     rate_comp = int((n+1 - no_comp) / (n+1)) * 0.1
     return [rate_comp, no_comp, n+1],no_comp_list
 
+
+def Show_Batch(batch, map_root, map_area):
+    plt.scatter(batch[:,:, 2], batch[:,:, 3], c='b', s=3)
+    imp = plt.imread(map_root)
+    plt.imshow(imp, extent = map_area)
+    plt.show()
+
+    return
+
+def Show_DFson(df_son, map_root, map_area):
+    plt.scatter(df_son.iloc[:, 2], df_son.iloc[:, 3],c='b', s=3)
+    imp = plt.imread(map_root)
+    plt.imshow(imp, extent= map_area)
+    plt.show()
+    return
 
 
 def get_ais_small():
