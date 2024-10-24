@@ -1,27 +1,9 @@
 import pandas as pd
 from Functions import *
 import pickle
-import warnings
 import matplotlib.pyplot as plt
-warnings.filterwarnings("ignore")
 
 
-def Show_Batch(batch):
-    plt.scatter(batch[:,:, 2], batch[:,:, 3], c='b', s=3)
-    imp = plt.imread('/home/user/Documents/Yangkaisen/GCN_Informer_test/map/map_Aarea.png')
-    plt.imshow(imp, extent=[114.099003, 114.187537, 22.265695, 22.322062])
-    plt.show()
-    print(';')
-
-    return
-
-def Show_DFson(df_son):
-    plt.scatter(df_son.iloc[:, 2], df_son.iloc[:, 3],c='b', s=3)
-    imp = plt.imread('/home/user/Documents/Yangkaisen/GCN_Informer_test/map/map_Aarea.png')
-    plt.imshow(imp, extent=[114.099003, 114.187537, 22.265695, 22.322062])
-    plt.show()
-    print(';')
-    return
 
 # args
 start_timestamp = '2022-09-09 08:00:00' # sampling start_timestamp of process task
@@ -76,7 +58,7 @@ for i in range(sample_times):
     # remove error
     df_son = Remove_Error(df_son, start_comp = S, end_comp = E)
     if i % 10 == 0 and Show_Tra:
-        Show_DFson(df_son)
+        Show_DFson(df_son, map_area)
     if Show_Tra_Comp:
         completed, no_comp_list = Show_Tra_Completed(df_son,start_comp = S,end_comp = E)
     if df_son.empty == True:
@@ -93,7 +75,7 @@ for i in range(sample_times):
         ships_inserted.append(ll_inserted.values)
     batch = np.stack(ships_inserted)
     if i % 10 == 0 and Show_Tra:
-        Show_Batch(batch)
+        Show_Batch(batch, map_area)
     ship_num = batch.shape[0]
 
     # mass Batch and get Adj
