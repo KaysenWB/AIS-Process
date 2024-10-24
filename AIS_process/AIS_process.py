@@ -1,8 +1,8 @@
 import pandas as pd
 from Functions import *
 import pickle
-import matplotlib.pyplot as plt
-
+import warnings
+warnings.filterwarnings('ignore')
 
 
 # args
@@ -16,12 +16,13 @@ sample_scale = iv * report_points # time scale for a sample/data_son (points * r
 sampling_interval = 30 # sampling distance in data_raw
 #min_repoint = int((sample_scale / 120)) *0.8 # for a traj, the threshold we keep it
 Show_Tra_Comp = False # Whether or not to show the integrity of this son's trajectory
-Show_Tra = False  # Whether to visualise trajectories
+Show_Tra = True  # Whether to visualize trajectories
 MGSC =  False  # Whether or not the data is processed as a multi-graph spatial convolution
 channel_root = None
-Batch_number = 100 # number of ship in a mass Batch
-AIS_data_root = '/home/user/Documents/Yangkaisen/Data/20220908-20220930_final.csv'
-save_root = '/home/user/Documents/Yangkaisen/VV/GTGF_ship/AIS_process/AIS_processed.cpkl'
+Batch_number = 48 # number of ship in a mass Batch
+AIS_data_root = '/Users/yangkaisen/MyProject/Data/20220908-20220930_final.csv'
+save_root = '/Users/yangkaisen/MyProject/AIS_process/test.cpkl'
+map_root = '/Users/yangkaisen/MyProject/Data/map/map_Aarea.png'
 map_area = [114.099003, 114.187537, 22.265695, 22.322062]
 channel_pos =  pd.read_csv(channel_root).values if MGSC else None
 
@@ -58,7 +59,7 @@ for i in range(sample_times):
     # remove error
     df_son = Remove_Error(df_son, start_comp = S, end_comp = E)
     if i % 10 == 0 and Show_Tra:
-        Show_DFson(df_son, map_area)
+        Show_DFson(df_son, map_root, map_area)
     if Show_Tra_Comp:
         completed, no_comp_list = Show_Tra_Completed(df_son,start_comp = S,end_comp = E)
     if df_son.empty == True:
@@ -75,7 +76,7 @@ for i in range(sample_times):
         ships_inserted.append(ll_inserted.values)
     batch = np.stack(ships_inserted)
     if i % 10 == 0 and Show_Tra:
-        Show_Batch(batch, map_area)
+        Show_Batch(batch, map_root, map_area)
     ship_num = batch.shape[0]
 
     # mass Batch and get Adj
