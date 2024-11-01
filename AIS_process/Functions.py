@@ -272,7 +272,8 @@ def Batch_mass(batch_list, ship_num_ac, MGSC):
 
     _, L, _ = batch_list[0].shape
     Batch = np.concatenate(batch_list, axis=0)
-    Batch = np.transpose(Batch[:,:, 2:].astype('float32'),(1, 0, 2))
+    stcl = 2 if MGSC else 0 
+    Batch = np.transpose(Batch[:,:, stcl:].astype('float32'),(1, 0, 2))
     # get Adjacency
     if MGSC:
         A_f = np.zeros((L, ship_num_ac, ship_num_ac))
