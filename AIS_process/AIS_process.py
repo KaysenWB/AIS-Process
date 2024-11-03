@@ -81,7 +81,7 @@ for i in range(sample_times):
 
     # mass Batch and get Adj
     if ship_num >= Batch_number:
-        stcl = 2 if MGSC else 0 # keep timestep and mmsi or not
+        stcl = 0 if MGSC else 2 # keep timestep and mmsi or not
         batch_in = np.transpose(batch[:, :, stcl:].astype('float32'),(1, 0, 2))
         if MGSC:
             A_f, A_s, A_c, A_v = Get_Adjacency_MGSC(batch)
